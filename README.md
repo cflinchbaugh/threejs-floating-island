@@ -2,11 +2,16 @@
 
 Three.js model rendering
 
+Demo: https://cflinchbaugh.github.io/threejs-floating-island/
+
 ## Setup
 
 At time of writing, @react-spring does not yet support the React v19
 
 `npm install --legacy-peer-deps`
+
+`npm run build`
+`npm run deploy`
 
 ## Special Thanks
 
