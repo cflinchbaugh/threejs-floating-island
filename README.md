@@ -2,6 +2,18 @@
 
 Three.js model rendering
 
+## Setup
+
+At time of writing, @react-spring does not yet support the React v19
+
+`npm install --legacy-peer-deps`
+
+## Special Thanks
+
+"Fox's islands" (https://skfb.ly/6XpAQ) by Andrew is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+Nimzu's model converter https://gltf.pmnd.rs/
+
 ## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
