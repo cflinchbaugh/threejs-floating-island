@@ -7,17 +7,29 @@ import Sky from "../models/Sky";
 import Plane from "../models/Plane";
 import Bird from "../models/Bird";
 
-function adjustIslandForScreenSize() {
-  const screenScale = window.innerWidth < 768 ? [0.9, 0.9, 0.9] : [1, 1, 1];
-  const screenPosition = [0, -6.5, -43];
-  const rotation = [0.1, 4.7, 0];
+export type Position = [number, number, number];
+
+function adjustIslandForScreenSize(): {
+  scale: Position;
+  position: Position;
+  rotation: Position;
+} {
+  const screenScale: Position =
+    window.innerWidth < 768 ? [0.9, 0.9, 0.9] : [1, 1, 1];
+  const screenPosition: Position = [0, -6.5, -43];
+  const rotation: Position = [0.1, 4.7, 0];
 
   return { scale: screenScale, position: screenPosition, rotation };
 }
 
-function adjustPlaneForScreenSize() {
-  const screenScale = window.innerWidth < 768 ? [1.5, 1.5, 1.5] : [3, 3, 3];
-  const screenPosition = window.innerWidth < 768 ? [0, -1.5, 0] : [0, -4, -4];
+function adjustPlaneForScreenSize(): {
+  scale: Position;
+  position: Position;
+} {
+  const screenScale: Position =
+    window.innerWidth < 768 ? [1.5, 1.5, 1.5] : [3, 3, 3];
+  const screenPosition: Position =
+    window.innerWidth < 768 ? [0, -1.5, 0] : [0, -4, -4];
 
   return { scale: screenScale, position: screenPosition };
 }
