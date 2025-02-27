@@ -1,7 +1,9 @@
 import { useGLTF } from "@react-three/drei";
 
 import planeScene from "../assets/3d/plane.glb";
-type Position = [x: number, y: number, z: number];
+// type Position = [x: number, y: number, z: number];
+type Position = [number, number, number];
+
 type PlaneProps = {
   isRotating: boolean;
   rotation: Position;

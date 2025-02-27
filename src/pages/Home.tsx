@@ -82,6 +82,7 @@ const Home = () => {
             rotation={islandConfig.rotation}
             isRotating={isRotating}
             setIsRotating={setIsRotating}
+            setCurrentStage={() => {}}
           />
         </Suspense>
       </Canvas>
