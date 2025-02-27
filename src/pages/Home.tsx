@@ -7,21 +7,36 @@ import Sky from "../models/Sky";
 import Plane from "../models/Plane";
 import Bird from "../models/Bird";
 
+function adjustIslandForScreenSize() {
+  const screenScale = window.innerWidth < 768 ? [0.9, 0.9, 0.9] : [1, 1, 1];
+  const screenPosition = [0, -6.5, -43];
+  const rotation = [0.1, 4.7, 0];
+
+  return { scale: screenScale, position: screenPosition, rotation };
+}
+
+function adjustPlaneForScreenSize() {
+  const screenScale = window.innerWidth < 768 ? [1.5, 1.5, 1.5] : [3, 3, 3];
+  const screenPosition = window.innerWidth < 768 ? [0, -1.5, 0] : [0, -4, -4];
+
+  return { scale: screenScale, position: screenPosition };
+}
+
 const Home = () => {
+  const [isRotating, setIsRotating] = useState(false);
+
   const [islandConfig, setIslandConfig] = useState(() =>
     adjustIslandForScreenSize()
   );
-
-  function adjustIslandForScreenSize() {
-    const screenScale = window.innerWidth < 768 ? [0.9, 0.9, 0.9] : [1, 1, 1];
-    const screenPosition = [0, -6.5, -43];
-    const rotation = [0.1, 4.7, 0];
-
-    return { scale: screenScale, position: screenPosition, rotation };
-  }
+  const [planeConfig, setPlaneConfig] = useState(() =>
+    adjustPlaneForScreenSize()
+  );
 
   useEffect(() => {
-    const handleResize = () => setIslandConfig(adjustIslandForScreenSize());
+    const handleResize = () => {
+      setIslandConfig(adjustIslandForScreenSize());
+      setPlaneConfig(adjustPlaneForScreenSize());
+    };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -30,7 +45,9 @@ const Home = () => {
   return (
     <div className="w-full h-screen relative">
       <Canvas
-        className="w-full h-screen bg-transparent"
+        className={`w-full h-screen bg-transparent ${
+          isRotating ? "cursor-grabbing" : "cursor-grab"
+        }`}
         camera={{ near: 0.1, far: 1000 }}
       >
         <Suspense
@@ -51,13 +68,20 @@ const Home = () => {
           />
 
           <Sky />
-          <Plane />
+          <Plane
+            isRotating={isRotating}
+            rotation={[0, 20, 0]}
+            scale={planeConfig.scale}
+            position={planeConfig.position}
+          />
           <Bird />
 
           <Island
             scale={islandConfig.scale}
             position={islandConfig.position}
             rotation={islandConfig.rotation}
+            isRotating={isRotating}
+            setIsRotating={setIsRotating}
           />
         </Suspense>
       </Canvas>
