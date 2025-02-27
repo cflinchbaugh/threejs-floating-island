@@ -9,15 +9,116 @@ Title: Fox's islands
 */
 
 import { useGLTF } from "@react-three/drei";
-import { useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { a } from "@react-spring/three";
 
 import islandScene from "../assets/3d/island.glb";
+import { useThree } from "@react-three/fiber";
 // import { useFrame, useThree } from "@react-three/fiber";
 
-const Island = (props: any) => {
+type Position = [x: number, y: number, z: number];
+type IslandProps = {
+  isRotating: boolean;
+  setIsRotating: (val: boolean) => void;
+  scale: Position;
+  position: Position;
+  rotation: Position;
+};
+const Island = ({ isRotating, setIsRotating, ...props }: IslandProps) => {
   const { nodes, materials } = useGLTF(islandScene) as any;
-  const islandRef = useRef(null);
+  const islandRef = useRef<IslandProps>(null);
+
+  console.log(isRotating);
+  const { gl, viewport } = useThree();
+  const lastX = useRef(0);
+  const rotationSpeed = useRef(0);
+  const dampingFactor = 0.95;
+
+  const handlePointerDown = useCallback(
+    (e: MouseEvent | TouchEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      setIsRotating(true);
+
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+      lastX.current = clientX;
+    },
+    [setIsRotating]
+  );
+
+  const handlePointerUp = useCallback(
+    (e: MouseEvent | TouchEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      setIsRotating(false);
+
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+      const delta = (clientX - lastX.current) / viewport.width;
+
+      if (islandRef.current !== null) {
+        islandRef.current.rotation.y += delta + 0.01 * Math.PI;
+      }
+    },
+    [setIsRotating, viewport.width]
+  );
+
+  const handlePointerMove = useCallback(
+    (e: MouseEvent | TouchEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      if (isRotating) {
+        handlePointerUp(e);
+      }
+    },
+    [handlePointerUp, isRotating]
+  );
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (islandRef.current === null) return;
+
+      if (e.key === "ArrowLeft") {
+        if (!isRotating) setIsRotating(true);
+        islandRef.current.rotation.y += 0.01 * Math.PI;
+      } else if (e.key === "ArrowRight") {
+        if (!isRotating) setIsRotating(true);
+        islandRef.current.rotation.y -= 0.01 * Math.PI;
+      }
+    },
+    [isRotating, setIsRotating]
+  );
+
+  const handleKeyUp = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        setIsRotating(false);
+      }
+    },
+    [setIsRotating]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("pointerup", handlePointerUp);
+    document.addEventListener("pointermove", handlePointerMove);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("pointerup", handlePointerUp);
+      document.removeEventListener("pointermove", handlePointerMove);
+    };
+  }, [
+    gl,
+    handleKeyDown,
+    handleKeyUp,
+    handlePointerDown,
+    handlePointerUp,
+    handlePointerMove,
+  ]);
 
   return (
     <a.group {...props} ref={islandRef}>
