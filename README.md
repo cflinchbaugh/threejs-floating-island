@@ -1,6 +1,12 @@
 # Description
 
-Three.js model rendering
+Three.js model rendering, specifically including:
+
+- Model Animations: Auto (Bird)
+- Model Animations: User Controls (Island, Plane, Sky)
+- User controls: Keyboard
+- User controls: Touch
+- User controls: Mouse
 
 Demo: https://cflinchbaugh.github.io/threejs-floating-island/
 
