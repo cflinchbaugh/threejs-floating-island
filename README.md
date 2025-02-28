@@ -25,6 +25,8 @@ At time of writing, @react-spring does not yet support the React v19
 
 Nimzu's model converter https://gltf.pmnd.rs/
 
+[JavaScript Mastery](https://www.youtube.com/watch?v=FkowOdMjvYo)
+
 ## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
