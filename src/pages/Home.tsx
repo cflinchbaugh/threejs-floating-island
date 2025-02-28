@@ -79,7 +79,7 @@ const Home = () => {
             intensity={1}
           />
 
-          <Sky />
+          <Sky isRotating={isRotating} />
           <Plane
             isRotating={isRotating}
             rotation={[0, 20, 0]}
