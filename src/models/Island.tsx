@@ -113,6 +113,7 @@ const Island = ({
     canvas.addEventListener("pointerdown", handlePointerDown);
     canvas.addEventListener("pointerup", handlePointerUp);
     canvas.addEventListener("pointermove", handlePointerMove);
+    canvas.addEventListener("touchmove", handlePointerMove, { passive: false });
 
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
@@ -121,6 +122,7 @@ const Island = ({
       canvas.removeEventListener("pointerdown", handlePointerDown);
       canvas.removeEventListener("pointerup", handlePointerUp);
       canvas.removeEventListener("pointermove", handlePointerMove);
+      canvas.removeEventListener("touchmove", handlePointerMove);
 
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
