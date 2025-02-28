@@ -34,7 +34,7 @@ const Island = ({
 }: IslandProps) => {
   const { nodes, materials } = useGLTF(islandScene) as any;
 
-  const islandRef = useRef<THREE.Group>(null); // ✅ Correct ref type
+  const islandRef = useRef<THREE.Group>(null);
 
   const { gl } = useThree();
   const lastX = useRef(0);
